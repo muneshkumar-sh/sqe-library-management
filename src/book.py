@@ -3,3 +3,6 @@ class Book:
         self.book_id = book_id
         self.title = title
         self.author = author
+
+    def add_rating(self, rating):
+        self.rating = rating
