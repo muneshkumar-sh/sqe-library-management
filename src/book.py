@@ -5,4 +5,7 @@ class Book:
         self.author = author
 
     def add_rating(self, rating):
+        if rating < 0:
+            raise ValueError("Rating cannot be negative")
+
         self.rating = rating
