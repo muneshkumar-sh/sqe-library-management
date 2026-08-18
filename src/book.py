@@ -3,4 +3,3 @@ class Book:
         self.book_id = book_id
         self.title = title
         self.author = author
-        self.rating = None
