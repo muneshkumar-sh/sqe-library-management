@@ -35,3 +35,23 @@ was pushed to GitHub.
 
 The merge conflict was successfully resolved locally and the GitHub pull
 request was updated with the conflict resolution.
+
+---
+
+## Task 4 — Commit Hygiene Audit
+
+### Last 10 Commits
+
+The last 10 commits were:
+
+```text
+fb64e7b merge: resolve book identifier conflict
+391d021 Merge pull request #5 from muneshkumar-sh/feature/rename-field-a
+86faaf4 refactor: rename book id to catalog id
+f49961a refactor: rename book id to isbn
+a1fb700 Merge pull request #4 from muneshkumar-sh/feature/add-book-rating
+1afc85e fix: address code review feedback
+52e8e2a feat: validate book rating
+1906baa feat: add book rating method
+050c227 feat: add Book model
+d6b1f79 feat: add Book model
