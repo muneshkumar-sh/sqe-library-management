@@ -58,7 +58,7 @@ d6b1f79 feat: add Book model
 
 ---
 
-### 📸 Screenshot
+### 📸 Task 4 Screenshot
 
-![Task 4 - Last 10 Commits](../screenshots/Task04-Last%2010%20commit.png)
+![Task 4 - Last 10 Commits](../screenshots/Task04-Last-10-commits.png)
 
