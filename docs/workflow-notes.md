@@ -55,10 +55,3 @@ a1fb700 Merge pull request #4 from muneshkumar-sh/feature/add-book-rating
 1906baa feat: add book rating method
 050c227 feat: add Book model
 d6b1f79 feat: add Book model
-
----
-
-### 📸 Task 4 Screenshot
-
-![Task 4 - Last 10 Commits](../screenshots/Task04-Last-10-commits.png)
-
