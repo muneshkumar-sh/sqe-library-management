@@ -9,3 +9,11 @@ class Book:
             raise ValueError("Rating must be between 0 and 5")
 
         self.rating = rating_value
+
+# book management practice
+
+# improve book details
+
+# prepare book functionality
+
+# rebase practice complete
