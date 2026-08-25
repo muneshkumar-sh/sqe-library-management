@@ -45,3 +45,7 @@ def test_whitespace_title_is_rejected():
 def test_valid_title_is_accepted():
     book = Book("9780132350884", "Clean Code", "Robert C. Martin")
     assert book.title == "Clean Code"
+
+def test_none_isbn_is_rejected():
+    with pytest.raises(ValueError, match="ISBN cannot be empty"):
+        Book(None, "Clean Code", "Robert C. Martin")
