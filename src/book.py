@@ -1,7 +1,13 @@
+from turtle import title
+
+
 class Book:
     def __init__(self, isbn, title, author):
         if not isbn or not isbn.strip():
             raise ValueError("ISBN cannot be empty")
+
+        if not title or not title.strip():
+            raise ValueError("Book title cannot be empty")
 
         self.isbn = isbn
         self.title = title

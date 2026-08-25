@@ -31,3 +31,17 @@ def test_rating_above_maximum_is_rejected():
 
     with pytest.raises(ValueError, match="Rating must be between 0 and 5"):
         book.add_rating(6)
+
+def test_empty_title_is_rejected():
+    with pytest.raises(ValueError, match="Book title cannot be empty"):
+        Book("9780132350884", "", "Robert C. Martin")
+
+
+def test_whitespace_title_is_rejected():
+    with pytest.raises(ValueError, match="Book title cannot be empty"):
+        Book("9780132350884", "   ", "Robert C. Martin")
+
+
+def test_valid_title_is_accepted():
+    book = Book("9780132350884", "Clean Code", "Robert C. Martin")
+    assert book.title == "Clean Code"
