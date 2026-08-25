@@ -8,6 +8,9 @@ class Book:
         self.author = author
 
     def add_rating(self, rating_value):
+        if not isinstance(rating_value, (int, float)):
+            raise ValueError("Rating must be a number between 0 and 5")
+
         if rating_value < 0 or rating_value > 5:
             raise ValueError("Rating must be between 0 and 5")
 
