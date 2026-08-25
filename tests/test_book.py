@@ -25,3 +25,9 @@ def test_valid_rating_is_accepted():
     book.add_rating(4)
 
     assert book.rating == 4
+
+def test_rating_above_maximum_is_rejected():
+    book = Book("9780132350884", "Clean Code", "Robert C. Martin")
+
+    with pytest.raises(ValueError, match="Rating must be between 0 and 5"):
+        book.add_rating(6)
