@@ -12,6 +12,16 @@ def test_whitespace_isbn_is_rejected():
         Book("   ", "Clean Code", "Robert C. Martin")
 
 
-def test_valid_isbn_is_accepted():
+def test_non_numeric_rating_is_rejected():
     book = Book("9780132350884", "Clean Code", "Robert C. Martin")
-    assert book.isbn == "9780132350884"
+
+    with pytest.raises(ValueError, match="Rating must be a number between 0 and 5"):
+        book.add_rating("five")
+
+
+def test_valid_rating_is_accepted():
+    book = Book("9780132350884", "Clean Code", "Robert C. Martin")
+
+    book.add_rating(4)
+
+    assert book.rating == 4
