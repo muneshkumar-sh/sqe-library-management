@@ -1,61 +1,65 @@
 # SQE Library Management System
 
-A Library Management System developed as part of the **Software Quality Engineering (SQE)** course. The project demonstrates the practical application of software quality practices using GitHub, automated testing, documentation, and structured development workflows.
+> A Software Quality Engineering course project demonstrating software development, testing, documentation, and GitHub-based quality practices.
 
 ---
 
-## 📌 Project Description
+## 📖 Project Overview
 
-The **SQE Library Management System** provides basic functionality for managing library resources. The project is also used to demonstrate software testing and quality engineering techniques throughout the development process.
+The **SQE Library Management System** is a Python-based project developed for the **Software Quality Engineering (SQE)** course.
 
-The system focuses on:
+The project demonstrates how software quality practices can be applied throughout the development process. It includes source code, automated tests, documentation, screenshots, and GitHub workflow management.
 
-- Managing books
-- Managing library members
-- Searching for books
-- Testing system functionality
-- Applying Software Quality Engineering practices
+The system focuses on basic library operations such as book management, borrowing limits, fine calculation, and ISBN validation.
 
 ---
 
 ## 🎯 Project Objectives
 
-The main objectives of this project are to:
+The main objectives of this project are:
 
-- Manage library books
-- Manage library members
-- Search for books
-- Design and execute test cases
-- Apply Equivalence Partitioning and other testing techniques
-- Track development tasks using GitHub Issues
-- Maintain source code, tests, and documentation in an organized repository
-- Practice a structured Git and GitHub workflow
+- Manage library books and related information
+- Apply library business rules
+- Implement book borrowing functionality
+- Validate ISBN information
+- Calculate fine tiers based on overdue days
+- Design test cases using **Equivalence Partitioning**
+- Perform automated testing using **Pytest**
+- Track project activities using GitHub
+- Maintain organized source code, tests, and documentation
+- Practice Git-based version control and development workflows
 
 ---
 
-## ✨ Main Features
+## ✨ Key Features
 
 ### 📚 Book Management
-- Store and manage book information
-- Validate book-related data
-- Apply business rules to book operations
 
-### 👤 Member Management
-- Manage library member information
-- Apply borrowing rules and limits
+- Create and manage book information
+- Validate book details
+- Validate ISBN values
 
-### 🔍 Book Search
-- Support searching for books within the library system
+### 📖 Library Management
 
-### 🧪 Software Testing
-- Automated tests using `pytest`
-- Equivalence Partitioning test cases
-- Validation of valid and invalid inputs
-- Test execution and result tracking
+- Borrow books for library members
+- Enforce the maximum borrowing limit
+- Track the number of books borrowed by a member
+
+### 💰 Fine Management
+
+- Calculate fine tiers according to overdue days
+- Handle invalid negative overdue values
+
+### 🧪 Automated Testing
+
+- Test valid and invalid inputs
+- Apply Equivalence Partitioning
+- Use Pytest for automated test execution
+- Verify system behavior through test cases
 
 ---
 
-## 🧰 Technologies Used
+## 🛠️ Technologies Used
 
 | Technology | Purpose |
 |---|---|
@@ -73,22 +77,31 @@ The main objectives of this project are to:
 sqe-library-management/
 │
 ├── .github/
-│   └── workflows/          # GitHub Actions workflows
+│   └── workflows/
 │
-├── docs/                   # Project documentation
-│   └── ep-analysis.md      # Equivalence Partitioning analysis
+├── docs/
+│   ├── .gitkeep
+│   ├── ep-analysis.md
+│   ├── test-plan.md
+│   ├── triage-log.md
+│   └── workflow-notes.md
 │
-├── screenshots/            # Lab and project screenshots
+├── screenshots/
+│   ├── .gitkeep
+│   ├── Task04-Last 10 commits.png
+│   └── Task04-Last-10-commits.png
 │
-├── src/                    # Source code
+├── src/
+│   ├── .gitkeep
 │   ├── __init__.py
 │   ├── book.py
 │   └── library.py
 │
-├── tests/                  # Automated test cases
+├── tests/
+│   ├── .gitkeep
 │   ├── test_book.py
-│   ├── test_fine_tier.py
 │   ├── test_borrow_limit.py
+│   ├── test_fine_tier.py
 │   └── test_validate_isbn.py
 │
 ├── .gitignore
