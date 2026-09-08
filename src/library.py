@@ -23,3 +23,16 @@ class Library:
             raise ValueError("Borrow limit exceeded")
 
         self.loans[member_id] = current_books + 1
+
+
+def validate_isbn(isbn):
+    if not isbn:
+        raise ValueError("ISBN cannot be empty")
+
+    if len(isbn) != 13:
+        raise ValueError("ISBN must contain exactly 13 digits")
+
+    if not isbn.isdigit():
+        raise ValueError("ISBN must contain only numeric digits")
+
+    return True
