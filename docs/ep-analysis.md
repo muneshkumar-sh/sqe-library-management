@@ -19,3 +19,10 @@ Business Rule: ISBN must contain exactly 13 numeric digits.
 | Empty string | Empty string | Invalid | `""` |
 | Too-short string | Less than 13 digits | Invalid | `123456789` |
 | Letters/Symbols | Contains letters or symbols | Invalid | `9780132350ABC` |
+
+## 3. Final Test Result
+
+After implementing all Equivalence Partitioning tests, the complete test suite was executed.
+
+```text
+21 passed
