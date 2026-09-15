@@ -19,3 +19,20 @@ def test_too_short_isbn():
 def test_isbn_with_letters_or_symbols():
     with pytest.raises(ValueError):
         validate_isbn("9780132350ABC")
+
+
+@pytest.mark.parametrize("length,should_raise", [
+    (11, True),
+    (12, True),
+    (13, False),
+    (14, True),
+    (15, True),
+])
+def test_isbn_length_boundaries(length, should_raise):
+    isbn = "1" * length
+
+    if should_raise:
+        with pytest.raises(ValueError):
+            validate_isbn(isbn)
+    else:
+        assert validate_isbn(isbn) is True
