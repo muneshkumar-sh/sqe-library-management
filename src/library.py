@@ -17,12 +17,13 @@ class Library:
         self.loans = {}
 
     def borrow_book(self, member_id, isbn):
-        current_books = self.loans.get(member_id, 0)
+        current_books = self.loans.get(member_id, [])
 
-        if current_books >= 5:
+        if len(current_books) >= 5:
             raise ValueError("Borrow limit exceeded")
 
-        self.loans[member_id] = current_books + 1
+        current_books.append(isbn)
+        self.loans[member_id] = current_books
 
 
 def validate_isbn(isbn):
