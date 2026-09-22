@@ -1,17 +1,20 @@
-from turtle import title
-
-
 class Book:
-    def __init__(self, isbn, title, author):
+    def __init__(self, isbn, title, author, total_copies=1):
         if not isbn or not isbn.strip():
             raise ValueError("ISBN cannot be empty")
 
         if not title or not title.strip():
             raise ValueError("Book title cannot be empty")
 
+        if total_copies < 0:
+            raise ValueError("Total copies cannot be negative")
+
         self.isbn = isbn
         self.title = title
         self.author = author
+        self.total_copies = total_copies
+        self.available_copies = total_copies
+        self.rating = 0
 
     def add_rating(self, rating_value):
         if not isinstance(rating_value, (int, float)):
@@ -21,11 +24,3 @@ class Book:
             raise ValueError("Rating must be between 0 and 5")
 
         self.rating = rating_value
-
-# book management practice
-
-# improve book details
-
-# prepare book functionality
-
-# rebase practice complete

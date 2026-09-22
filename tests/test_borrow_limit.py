@@ -2,12 +2,22 @@ import pytest
 from src.library import Library
 
 
-@pytest.mark.parametrize('current_books,should_raise', [
-    (3, False),
-    (5, True),
-])
-def test_borrow_limit(current_books, should_raise):
-    library = Library()
+# Function-scoped fixture:
+# A fresh Library is created for every test so that loans from one
+# test cannot affect another test.
+@pytest.fixture
+def library():
+    return Library()
+
+
+@pytest.mark.parametrize(
+    "current_books,should_raise",
+    [
+        (3, False),
+        (5, True),
+    ],
+)
+def test_borrow_limit(library, current_books, should_raise):
     member_id = "M001"
 
     for i in range(current_books):
@@ -21,8 +31,7 @@ def test_borrow_limit(current_books, should_raise):
         assert len(library.loans[member_id]) == current_books + 1
 
 
-def test_borrow_limit_boundaries():
-    library = Library()
+def test_borrow_limit_boundaries(library):
     member_id = "M001"
 
     # Boundary: 4 books -> borrowing one more should be allowed
@@ -40,8 +49,7 @@ def test_borrow_limit_boundaries():
     assert len(library.loans[member_id]) == 5
 
 
-def test_borrow_book_tracks_isbn():
-    library = Library()
+def test_borrow_book_tracks_isbn(library):
     member_id = "M001"
     isbn = "9780132350884"
 
