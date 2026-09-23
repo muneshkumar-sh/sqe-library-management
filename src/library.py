@@ -13,6 +13,11 @@ def fine_tier(days_overdue):
         return "Severe"
 
 
+class LibraryIOError(Exception):
+    """Raised when the library catalog cannot be exported."""
+    pass
+
+
 class Library:
     def __init__(self):
         self.loans = {}
@@ -26,6 +31,20 @@ class Library:
             book.available_copies
             for book in self.books.values()
         )
+
+    def export_catalog(self, path):
+        try:
+            with open(path, "w", encoding="utf-8") as file:
+                for book in self.books.values():
+                    content = (
+                        f"{book.isbn} | {book.title} | "
+                        f"{book.author} | Available: {book.available_copies}\n"
+                    )
+                    file.write(content)
+        except OSError as error:
+            raise LibraryIOError(
+                f"Could not export catalog: {error}"
+            ) from error
 
     def borrow_book(self, member_id, isbn):
         current_books = self.loans.get(member_id, [])
