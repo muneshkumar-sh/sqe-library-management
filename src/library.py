@@ -68,4 +68,4 @@ def validate_isbn(isbn):
 
     return True
 def rank_books_by_popularity(library):
-    return []
+    return list(library.books.values())
