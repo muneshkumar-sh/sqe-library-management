@@ -68,4 +68,14 @@ def validate_isbn(isbn):
 
     return True
 def rank_books_by_popularity(library):
-    return list(library.books.values())
+    borrow_counts = {}
+
+    for borrowed_books in library.loans.values():
+        for isbn in borrowed_books:
+            borrow_counts[isbn] = borrow_counts.get(isbn, 0) + 1
+
+    return sorted(
+        library.books.values(),
+        key=lambda book: borrow_counts.get(book.isbn, 0),
+        reverse=True
+    )
