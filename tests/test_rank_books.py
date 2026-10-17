@@ -66,3 +66,22 @@ def test_equal_borrow_counts_are_sorted_alphabetically():
     result = library_module.rank_books_by_popularity(library)
 
     assert result == [book_a, book_m, book_z]
+
+def test_never_borrowed_book_ranks_after_borrowed_books():
+    library = Library()
+
+    borrowed_book = Book(
+        "9780132350884", "Clean Code", "Robert C. Martin"
+    )
+    unused_book = Book(
+        "9780135957059", "Alpha Coding", "Author A"
+    )
+
+    library.add_book(borrowed_book)
+    library.add_book(unused_book)
+
+    library.borrow_book("M1", borrowed_book.isbn)
+
+    result = library_module.rank_books_by_popularity(library)
+
+    assert result == [borrowed_book, unused_book]
