@@ -2,7 +2,7 @@
 
 
 
-\## Feature: Rank Books by Popularity
+## Feature: Rank Books by Popularity
 
 
 
