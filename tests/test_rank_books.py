@@ -47,3 +47,22 @@ def test_rank_books_by_borrowing_count():
     result = library_module.rank_books_by_popularity(library)
 
     assert result == [book2, book3, book1]
+
+def test_equal_borrow_counts_are_sorted_alphabetically():
+    library = Library()
+
+    book_z = Book("9780132350884", "Zebra Coding", "Author Z")
+    book_a = Book("9780135957059", "Alpha Coding", "Author A")
+    book_m = Book("9780134494166", "Middle Coding", "Author M")
+
+    library.add_book(book_z)
+    library.add_book(book_a)
+    library.add_book(book_m)
+
+    library.borrow_book("M1", book_z.isbn)
+    library.borrow_book("M1", book_a.isbn)
+    library.borrow_book("M1", book_m.isbn)
+
+    result = library_module.rank_books_by_popularity(library)
+
+    assert result == [book_a, book_m, book_z]
