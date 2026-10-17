@@ -76,6 +76,8 @@ def rank_books_by_popularity(library):
 
     return sorted(
         library.books.values(),
-        key=lambda book: borrow_counts.get(book.isbn, 0),
-        reverse=True
+        key=lambda book: (
+            -borrow_counts.get(book.isbn, 0),
+            book.title.lower()
+        )
     )
