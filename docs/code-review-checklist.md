@@ -8,6 +8,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 \## 1. Correctness
 
+
+
 \- \[ ] Does the code implement the requested functionality?
 
 \- \[ ] Are calculations and conditional statements correct?
@@ -17,6 +19,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 
 \## 2. Tests
+
+
 
 \- \[ ] Are relevant unit tests included?
 
@@ -28,6 +32,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 \## 3. Readability
 
+
+
 \- \[ ] Are function and variable names meaningful?
 
 \- \[ ] Is the code easy to follow and consistently formatted?
@@ -37,6 +43,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 
 \## 4. Design
+
+
 
 \- \[ ] Does the implementation fit the existing LibraryHub architecture?
 
@@ -48,6 +56,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 \## 5. Risk
 
+
+
 \- \[ ] Could the change break existing functionality?
 
 \- \[ ] Are invalid inputs handled safely?
@@ -58,6 +68,8 @@ Use this checklist when reviewing a GitHub Pull Request.
 
 \## Lessons Learned
 
+
+
 \_To be completed in Task 5 after the review and fixes.\_
 
 
@@ -65,6 +77,4 @@ Use this checklist when reviewing a GitHub Pull Request.
 \- Most valuable issue caught:
 
 \- One checklist item to add next time:
-
-
 
