@@ -67,3 +67,10 @@ def validate_isbn(isbn):
         raise ValueError("ISBN must contain only numeric digits")
 
     return True
+
+def borrow_percentile(member, library):
+    x = [len(v) for v in library.loans.values()]
+    y = len(library.loans.get(member, []))
+    n = len(x)
+    r = sum(1 for a in x if a <= y)
+    return (r / n) * 100
