@@ -74,3 +74,20 @@ def borrow_percentile(member, library):
     n = len(x)
     r = sum(1 for a in x if a <= y)
     return (r / n) * 100
+
+def parse_book_id(book_id_str):
+    try:
+        return int(book_id_str)
+    except:  # <--- SonarCloud will flag this (python:S5754)
+        return -1
+
+def calculate_fine(days_late):
+    if days_late > 14: # <--- SonarCloud will flag 14 as a magic number (python:S109)
+        return days_late * 5 # <--- SonarCloud will flag 5
+    return 0
+
+def get_error():
+    return "Book not found"
+
+def get_another_error():
+    return "Book not found"
