@@ -1,3 +1,8 @@
+MAX_BORROW_LIMIT = 5
+FINE_GRACE_PERIOD = 14
+FINE_RATE_PER_DAY = 5
+BOOK_NOT_FOUND = "Book not found"
+
 def fine_tier(days_overdue):
     if days_overdue < 0:
         raise ValueError("Days overdue cannot be negative")
@@ -49,7 +54,7 @@ class Library:
     def borrow_book(self, member_id, isbn):
         current_books = self.loans.get(member_id, [])
 
-        if len(current_books) >= 5:
+        if len(current_books) >= MAX_BORROW_LIMIT: # <--- Used the constant here
             raise ValueError("Borrow limit exceeded")
 
         current_books.append(isbn)
@@ -81,14 +86,14 @@ def parse_book_id(book_id_str):
     except ValueError:  # <--- FIXED
         return -1
 
-        
+
 def calculate_fine(days_late):
-    if days_late > 14: # <--- SonarCloud will flag 14 as a magic number (python:S109)
-        return days_late * 5 # <--- SonarCloud will flag 5
+    if days_late > FINE_GRACE_PERIOD: 
+        return days_late * FINE_RATE_PER_DAY 
     return 0
 
 def get_error():
-    return "Book not found"
+    return BOOK_NOT_FOUND
 
 def get_another_error():
-    return "Book not found"
+    return BOOK_NOT_FOUND
