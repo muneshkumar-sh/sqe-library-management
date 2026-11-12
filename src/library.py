@@ -78,9 +78,10 @@ def borrow_percentile(member, library):
 def parse_book_id(book_id_str):
     try:
         return int(book_id_str)
-    except:  # <--- SonarCloud will flag this (python:S5754)
+    except ValueError:  # <--- FIXED
         return -1
 
+        
 def calculate_fine(days_late):
     if days_late > 14: # <--- SonarCloud will flag 14 as a magic number (python:S109)
         return days_late * 5 # <--- SonarCloud will flag 5
