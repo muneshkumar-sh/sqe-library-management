@@ -41,8 +41,8 @@ def test_non_numeric_rating_is_rejected(valid_book):
 
 def test_valid_rating_is_accepted(valid_book):
     valid_book.add_rating(4)
-
-    assert valid_book.rating == 4
+    assert valid_book.rating == 4  # <--- Strong assertion
+    assert isinstance(valid_book.rating, int) # <--- Even stronger
 
 
 def test_rating_above_maximum_is_rejected(valid_book):
