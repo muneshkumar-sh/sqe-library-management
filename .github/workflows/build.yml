@@ -33,7 +33,7 @@ jobs:
           pytest tests/ --cov=src --cov-report=xml
           
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@b9b0f1b7b10a410b2b8c8e0b156c27e28c258a52 # v3.0.0
+        uses: SonarSource/sonarqube-scan-action@v4.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
