@@ -108,6 +108,18 @@ def create_app(library=None, member_ids=None):
         return jsonify(book_response(book)), 201
 
     # -------------------------------------------------
+    # GET /books - Retrieve the complete book catalog
+    # -------------------------------------------------
+    @app.route("/books", methods=["GET"])
+    def get_books():
+        books = [
+            book_response(book)
+            for book in library.books.values()
+        ]
+
+        return jsonify(books), 200
+
+    # -------------------------------------------------
     # 2. GET /books/<isbn> - Retrieve a book
     # -------------------------------------------------
     @app.route("/books/<isbn>", methods=["GET"])
