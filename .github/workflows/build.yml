@@ -1,3 +1,4 @@
+
 name: Build and SonarCloud Analysis
 
 on:
@@ -10,28 +11,28 @@ on:
 jobs:
   sonarcloud:
     name: SonarCloud Scan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      
+          fetch-depth: 0
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-          
+
       - name: Install dependencies
         run: |
-          pip install --only-binary :all: pytest==7.4.4 pytest-cov==4.1.0
-          # Fix for the "Omitting --only-binary" issue: we force binary wheels
-          # Fix for the "locking resolved versions" issue: we pin exact versions
-          pip install --only-binary :all: pytest==7.4.4 pytest-cov==4.1.0
+          python -m pip install --upgrade pip
+          python -m pip install pytest==7.4.4 pytest-cov==4.1.0
 
       - name: Run tests with coverage
         run: |
-          pytest tests/ --cov=src --cov-report=xml
-          
+          python -m pytest tests/ --cov=src --cov-report=xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v4.2.1
         env:
