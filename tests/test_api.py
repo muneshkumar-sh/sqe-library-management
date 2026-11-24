@@ -372,3 +372,14 @@ def test_get_fines_unknown_member(client):
     assert response.status_code == 404
     assert response.get_json() == {"error": "Member not found"}
 
+
+def test_application_entry_point():
+    """Verify that the Flask application starts without debug mode."""
+    import runpy
+    from unittest.mock import patch
+
+    with patch("flask.Flask.run") as mock_run:
+        runpy.run_module("src.api.app", run_name="__main__")
+
+        mock_run.assert_called_once_with()
+
