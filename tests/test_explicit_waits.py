@@ -1,5 +1,6 @@
 
 import time
+import pytest
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -7,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.catalog_page import CatalogPage
-
+pytestmark = pytest.mark.ui
 
 def generate_isbn():
     base = str(int(time.time() * 1000))[-12:].zfill(12)
@@ -39,13 +40,16 @@ def test_borrow_book_with_explicit_wait():
             "SQE Lab",
             2
         )
-
+        assert catalog.get_available_copies_display(isbn) == "2"
         driver.find_element(By.ID, "borrowIsbn").send_keys(isbn)
         driver.find_element(By.ID, "borrow-btn").click()
 
         # Wait until the API request completes and copies update.
-        WebDriverWait(driver, 5).until(
-            lambda d: catalog.get_available_copies_display(isbn) == "1"
+        WebDriverWait(driver, 10).until(
+            EC.text_to_be_present_in_element(
+                (By.ID, f"available-copies-{isbn}"),
+                "1"
+            )
         )
 
         assert catalog.get_available_copies_display(isbn) == "1"

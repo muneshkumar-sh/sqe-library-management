@@ -1,8 +1,9 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from pages.catalog_page import CatalogPage
-
+pytestmark = pytest.mark.ui
 
 def test_add_book_through_catalog_page():
     options = Options()

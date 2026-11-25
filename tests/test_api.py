@@ -383,3 +383,15 @@ def test_application_entry_point():
 
         mock_run.assert_called_once_with()
 
+def test_home_page():
+    from src.api.app import create_app
+
+    app = create_app()
+    client = app.test_client()
+
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert b"LibraryHub" in response.data
+    assert b"title-input" in response.data
+    assert b"add-btn" in response.data

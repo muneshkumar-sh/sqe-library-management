@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 from pages.catalog_page import CatalogPage
 
+pytestmark = pytest.mark.ui
 
 def generate_isbn():
     base = "978" + str(time.time_ns())[-9:]
