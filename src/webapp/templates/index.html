@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,11 +37,38 @@
             box-shadow: 0 2px 8px #00000012;
         }
 
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
         input {
             padding: 10px;
-            margin: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: 2px solid #2878c8;
+            outline-offset: 2px;
         }
 
         button {
@@ -55,6 +83,15 @@
 
         button:hover {
             background: #185a99;
+        }
+
+        button:focus-visible {
+            outline: 2px solid #243b55;
+            outline-offset: 3px;
+        }
+
+        .table-container {
+            overflow-x: auto;
         }
 
         table {
@@ -77,10 +114,21 @@
             margin: 15px 0;
             font-weight: bold;
         }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .form-group {
+                flex-basis: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
+
     <div class="container">
 
         <header>
@@ -88,72 +136,168 @@
             <p>Library Management System</p>
         </header>
 
-        <div id="message"></div>
+        <div id="message" role="status" aria-live="polite"></div>
 
+        <!-- Add New Book -->
         <section class="card">
+
             <h2>Add New Book</h2>
 
-            <input id="title-input" placeholder="Book Title">
-            <input id="isbn-input" placeholder="ISBN">
-            <input id="author-input" placeholder="Author">
-            <input id="copies-input" type="number" value="1" min="0">
+            <div class="form-row">
 
-            <button id="add-btn" onclick="addBook()">Add Book</button>
+                <div class="form-group">
+                    <label for="title-input">Book Title</label>
+                    <input
+                        id="title-input"
+                        placeholder="Book Title">
+                </div>
+
+                <div class="form-group">
+                    <label for="isbn-input">ISBN</label>
+                    <input
+                        id="isbn-input"
+                        placeholder="ISBN">
+                </div>
+
+                <div class="form-group">
+                    <label for="author-input">Author</label>
+                    <input
+                        id="author-input"
+                        placeholder="Author">
+                </div>
+
+                <div class="form-group">
+                    <label for="copies-input">Copies</label>
+                    <input
+                        id="copies-input"
+                        type="number"
+                        value="1"
+                        min="0">
+                </div>
+
+                <button
+                    id="add-btn"
+                    onclick="addBook()">
+                    Add Book
+                </button>
+
+            </div>
+
         </section>
 
+        <!-- Book Catalog -->
         <section class="card">
+
             <h2>Book Catalog</h2>
 
-            <button onclick="loadBooks()">Refresh Books</button>
+            <button onclick="loadBooks()">
+                Refresh Books
+            </button>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>ISBN</th>
-                        <th>Author</th>
-                        <th>Available</th>
-                    </tr>
-                </thead>
-                <tbody id="book-list"></tbody>
-            </table>
+            <div class="table-container">
+
+                <table aria-label="Library book catalog">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Available</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="book-list"></tbody>
+
+                </table>
+
+            </div>
+
         </section>
 
+        <!-- Borrow and Return Book -->
         <section class="card">
+
             <h2>Borrow / Return Book</h2>
 
-            <input id="memberId" type="number" value="501" placeholder="Member ID">
+            <div class="form-row">
 
-            <input id="borrowIsbn" placeholder="Book ISBN">
+                <div class="form-group">
+                    <label for="memberId">Member ID</label>
+                    <input
+                        id="memberId"
+                        type="number"
+                        value="501"
+                        placeholder="Member ID">
+                </div>
 
-            <button id="borrow-btn" onclick="borrowBook()">Borrow</button>
-            <button onclick="returnBook()">Return</button>
+                <div class="form-group">
+                    <label for="borrowIsbn">Book ISBN</label>
+                    <input
+                        id="borrowIsbn"
+                        placeholder="Book ISBN">
+                </div>
+
+                <button
+                    id="borrow-btn"
+                    onclick="borrowBook()">
+                    Borrow
+                </button>
+
+                <button onclick="returnBook()">
+                    Return
+                </button>
+
+            </div>
+
         </section>
 
+        <!-- Member Fine Details -->
         <section class="card">
+
             <h2>Member Fine Details</h2>
 
-            <input id="fineMemberId" type="number" value="501" placeholder="Member ID">
+            <div class="form-row">
 
-            <button onclick="getFines()">Check Fines</button>
+                <div class="form-group">
+                    <label for="fineMemberId">Member ID</label>
+                    <input
+                        id="fineMemberId"
+                        type="number"
+                        value="501"
+                        placeholder="Member ID">
+                </div>
 
-            <p id="fineResult">No fine information loaded.</p>
+                <button onclick="getFines()">
+                    Check Fines
+                </button>
+
+            </div>
+
+            <p id="fineResult" aria-live="polite">
+                No fine information loaded.
+            </p>
+
         </section>
 
     </div>
 
     <script>
+
         function showMessage(message) {
             document.getElementById("message").textContent = message;
         }
 
+
         async function apiRequest(url, method = "GET", data = null) {
+
             const options = { method };
 
             if (data) {
                 options.headers = {
                     "Content-Type": "application/json"
                 };
+
                 options.body = JSON.stringify(data);
             }
 
@@ -167,42 +311,75 @@
             return result;
         }
 
+
         async function loadBooks() {
+
             try {
+
                 const books = await apiRequest("/books");
                 const list = document.getElementById("book-list");
 
-                list.innerHTML = "";
+                list.replaceChildren();
 
                 books.forEach(book => {
-                    list.innerHTML += `
-                        <tr id="row-${book.isbn}">
-                            <td>${book.title}</td>
-                            <td>${book.isbn}</td>
-                            <td>${book.author}</td>
-                            <td id="available-copies-${book.isbn}">
-                                ${book.available_copies}
-                            </td>
-                        </tr>
-                    `;
+
+                    const row = document.createElement("tr");
+                    row.id = `row-${book.isbn}`;
+
+                    const titleCell = document.createElement("td");
+                    titleCell.textContent = book.title;
+
+                    const isbnCell = document.createElement("td");
+                    isbnCell.textContent = book.isbn;
+
+                    const authorCell = document.createElement("td");
+                    authorCell.textContent = book.author;
+
+                    const copiesCell = document.createElement("td");
+                    copiesCell.id = `available-copies-${book.isbn}`;
+                    copiesCell.textContent = book.available_copies;
+
+                    row.append(
+                        titleCell,
+                        isbnCell,
+                        authorCell,
+                        copiesCell
+                    );
+
+                    list.appendChild(row);
+
                 });
 
             } catch (error) {
+
                 showMessage(error.message);
+
             }
         }
 
+
         async function addBook() {
-            if (!document.getElementById("title-input").value.trim()) {
-                document.getElementById("message").textContent =
-                    "Title is required";
+
+            const title = document.getElementById("title-input").value;
+
+            if (!title.trim()) {
+                showMessage("Title is required");
                 return;
             }
+
             try {
+
                 const data = {
-                    title: document.getElementById("title-input").value,
-                    isbn: document.getElementById("isbn-input").value,
-                    author: document.getElementById("author-input").value,
+                    title: title,
+
+                    isbn: document.getElementById(
+                        "isbn-input"
+                    ).value,
+
+                    author: document.getElementById(
+                        "author-input"
+                    ).value,
+
                     total_copies: Number(
                         document.getElementById("copies-input").value
                     )
@@ -211,69 +388,115 @@
                 await apiRequest("/books", "POST", data);
 
                 showMessage("Book added successfully!");
-                loadBooks();
+
+                await loadBooks();
 
             } catch (error) {
+
                 showMessage(error.message);
+
             }
         }
 
 
         async function borrowBook() {
-            const selectedIsbn = document.getElementById("borrowIsbn").value.trim();
+
+            const selectedIsbn = document.getElementById(
+                "borrowIsbn"
+            ).value.trim();
+
             const copiesCell = document.getElementById(
                 `available-copies-${selectedIsbn}`
             );
 
             if (copiesCell && copiesCell.textContent.trim() === "0") {
-                document.getElementById("message").textContent =
-                    "No copies available";
-                return;
-            }
-            try {
-                const member = document.getElementById("memberId").value;
-                const isbn = document.getElementById("borrowIsbn").value;
 
-                await apiRequest(`/members/${member}/borrow`, "POST", { isbn });
+                showMessage("No copies available");
+                return;
+
+            }
+
+            try {
+
+                const member = document.getElementById(
+                    "memberId"
+                ).value;
+
+                const isbn = selectedIsbn;
+
+                await apiRequest(
+                    `/members/${member}/borrow`,
+                    "POST",
+                    { isbn }
+                );
 
                 showMessage("Book borrowed successfully!");
-                loadBooks();
+
+                await loadBooks();
 
             } catch (error) {
+
                 showMessage(error.message);
+
             }
         }
+
 
         async function returnBook() {
-            try {
-                const member = document.getElementById("memberId").value;
-                const isbn = document.getElementById("borrowIsbn").value;
 
-                await apiRequest(`/members/${member}/return`, "POST", { isbn });
+            try {
+
+                const member = document.getElementById(
+                    "memberId"
+                ).value;
+
+                const isbn = document.getElementById(
+                    "borrowIsbn"
+                ).value.trim();
+
+                await apiRequest(
+                    `/members/${member}/return`,
+                    "POST",
+                    { isbn }
+                );
 
                 showMessage("Book returned successfully!");
-                loadBooks();
+
+                await loadBooks();
 
             } catch (error) {
+
                 showMessage(error.message);
+
             }
         }
 
-        async function getFines() {
-            try {
-                const member = document.getElementById("fineMemberId").value;
 
-                const result = await apiRequest(`/members/${member}/fines`);
+        async function getFines() {
+
+            try {
+
+                const member = document.getElementById(
+                    "fineMemberId"
+                ).value;
+
+                const result = await apiRequest(
+                    `/members/${member}/fines`
+                );
 
                 document.getElementById("fineResult").textContent =
                     `Member ID: ${result.member_id} | Fine: ${result.fine}`;
 
             } catch (error) {
+
                 showMessage(error.message);
+
             }
         }
 
+
         loadBooks();
+
     </script>
 
 </body>
