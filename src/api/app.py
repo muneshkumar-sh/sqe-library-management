@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, request
-
+from flask import Flask, jsonify, request, render_template
+import time
 from src.book import Book
 from src.library import (
     Library,
@@ -9,7 +9,10 @@ from src.library import (
 )
 
 def create_app(library=None, member_ids=None):
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder="../webapp/templates"
+    )
 
     # Reuse the existing Library class.
     library = library or Library()
@@ -136,6 +139,7 @@ def create_app(library=None, member_ids=None):
     # -------------------------------------------------
     @app.route("/members/<int:member_id>/borrow", methods=["POST"])
     def borrow_book(member_id):
+        time.sleep(1)  # Simulate delay
         if member_id not in members:
             return error_response("Member not found", 404)
 
@@ -233,6 +237,13 @@ def create_app(library=None, member_ids=None):
             "member_id": member_id,
             "fine": fine,
         }), 200
+
+    # -------------------------------------------------
+    # LibraryHub Frontend
+    # -------------------------------------------------
+    @app.route("/", methods=["GET"])
+    def home():
+        return render_template("index.html")
 
     return app
 
