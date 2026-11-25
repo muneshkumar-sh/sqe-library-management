@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryHub</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+            color: #263238;
+        }
+
+        header {
+            background: #243b55;
+            color: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000012;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #2878c8;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #185a99;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #eef2f7;
+        }
+
+        #message {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <h1>LibraryHub</h1>
+            <p>Library Management System</p>
+        </header>
+
+        <div id="message"></div>
+
+        <section class="card">
+            <h2>Add New Book</h2>
+
+            <input id="title-input" placeholder="Book Title">
+            <input id="isbn-input" placeholder="ISBN">
+            <input id="author-input" placeholder="Author">
+            <input id="copies-input" type="number" value="1" min="0">
+
+            <button id="add-btn" onclick="addBook()">Add Book</button>
+        </section>
+
+        <section class="card">
+            <h2>Book Catalog</h2>
+
+            <button onclick="loadBooks()">Refresh Books</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>ISBN</th>
+                        <th>Author</th>
+                        <th>Available</th>
+                    </tr>
+                </thead>
+                <tbody id="book-list"></tbody>
+            </table>
+        </section>
+
+        <section class="card">
+            <h2>Borrow / Return Book</h2>
+
+            <input id="memberId" type="number" value="501" placeholder="Member ID">
+
+            <input id="borrowIsbn" placeholder="Book ISBN">
+
+            <button id="borrow-btn" onclick="borrowBook()">Borrow</button>
+            <button onclick="returnBook()">Return</button>
+        </section>
+
+        <section class="card">
+            <h2>Member Fine Details</h2>
+
+            <input id="fineMemberId" type="number" value="501" placeholder="Member ID">
+
+            <button onclick="getFines()">Check Fines</button>
+
+            <p id="fineResult">No fine information loaded.</p>
+        </section>
+
+    </div>
+
+    <script>
+        function showMessage(message) {
+            document.getElementById("message").textContent = message;
+        }
+
+        async function apiRequest(url, method = "GET", data = null) {
+            const options = { method };
+
+            if (data) {
+                options.headers = {
+                    "Content-Type": "application/json"
+                };
+                options.body = JSON.stringify(data);
+            }
+
+            const response = await fetch(url, options);
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "Request failed");
+            }
+
+            return result;
+        }
+
+        async function loadBooks() {
+            try {
+                const books = await apiRequest("/books");
+                const list = document.getElementById("book-list");
+
+                list.innerHTML = "";
+
+                books.forEach(book => {
+                    list.innerHTML += `
+                        <tr id="row-${book.isbn}">
+                            <td>${book.title}</td>
+                            <td>${book.isbn}</td>
+                            <td>${book.author}</td>
+                            <td id="available-copies-${book.isbn}">
+                                ${book.available_copies}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+            } catch (error) {
+                showMessage(error.message);
+            }
+        }
+
+        async function addBook() {
+            if (!document.getElementById("title-input").value.trim()) {
+                document.getElementById("message").textContent =
+                    "Title is required";
+                return;
+            }
+            try {
+                const data = {
+                    title: document.getElementById("title-input").value,
+                    isbn: document.getElementById("isbn-input").value,
+                    author: document.getElementById("author-input").value,
+                    total_copies: Number(
+                        document.getElementById("copies-input").value
+                    )
+                };
+
+                await apiRequest("/books", "POST", data);
+
+                showMessage("Book added successfully!");
+                loadBooks();
+
+            } catch (error) {
+                showMessage(error.message);
+            }
+        }
+
+
+        async function borrowBook() {
+            const selectedIsbn = document.getElementById("borrowIsbn").value.trim();
+            const copiesCell = document.getElementById(
+                `available-copies-${selectedIsbn}`
+            );
+
+            if (copiesCell && copiesCell.textContent.trim() === "0") {
+                document.getElementById("message").textContent =
+                    "No copies available";
+                return;
+            }
+            try {
+                const member = document.getElementById("memberId").value;
+                const isbn = document.getElementById("borrowIsbn").value;
+
+                await apiRequest(`/members/${member}/borrow`, "POST", { isbn });
+
+                showMessage("Book borrowed successfully!");
+                loadBooks();
+
+            } catch (error) {
+                showMessage(error.message);
+            }
+        }
+
+        async function returnBook() {
+            try {
+                const member = document.getElementById("memberId").value;
+                const isbn = document.getElementById("borrowIsbn").value;
+
+                await apiRequest(`/members/${member}/return`, "POST", { isbn });
+
+                showMessage("Book returned successfully!");
+                loadBooks();
+
+            } catch (error) {
+                showMessage(error.message);
+            }
+        }
+
+        async function getFines() {
+            try {
+                const member = document.getElementById("fineMemberId").value;
+
+                const result = await apiRequest(`/members/${member}/fines`);
+
+                document.getElementById("fineResult").textContent =
+                    `Member ID: ${result.member_id} | Fine: ${result.fine}`;
+
+            } catch (error) {
+                showMessage(error.message);
+            }
+        }
+
+        loadBooks();
+    </script>
+
+</body>
+
+</html>

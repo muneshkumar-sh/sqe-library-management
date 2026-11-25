@@ -3,3 +3,4 @@ flask>=3.1,<4.0
 requests>=2.32,<3.0
 pytest>=9.0,<10.0
 pytest-cov>=7.0,<8.0
+selenium>=4.0,<5.0
